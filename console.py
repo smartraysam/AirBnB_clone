@@ -161,6 +161,49 @@ class HBNBCommand(cmd.Cmd):
                 setattr(storage.all()[patt], attribute, value)
                 storage.all()[patt].save()
 
+   def default(self, line):
+        """Function that defines default shell behaviour"""
+
+        self.console(line)
+
+    def console(self, line):
+        """Function that defines how shell interprets commands for classes"""
+
+        match = re.search(r"^(\w*)\.(\w+)(?:\(([^)]*)\))$", line)
+        if not match:
+            return (line)
+
+        cname = match.group(1)
+        method = match.group(2)
+        args = match.group(3)
+        uid_pattern = re.search('^"([^"]*)"(?:, (.*))?$', args)
+
+        if uid_pattern:
+            uid = uid_pattern.group(1)
+            attr_or_dict = uid_pattern.group(2)
+
+        else:
+            uid = args
+            attr_or_dict = False
+
+        attr_and_value = ""
+
+        if method == "update" and attr_or_dict:
+            match_dict = re.search('^({.*})$', attr_or_dict)
+            if match_dict:
+                self.update_dict(cname, uid, match_dict.group(1))
+                return ("")
+
+            match_attr_and_value = re.search(
+                '^(?:"([^"]*)")?(?:, (.*))?$', attr_or_dict)
+
+            if match_attr_and_value:
+                attr_and_value = (match_attr_and_value.group(
+                    1) or "") + " " + (match_attr_and_value.group(2) or "")
+
+        cmd = method + " " + cname + " " + uid + " " + attr_and_value
+        self.onecmd(cmd)
+        return (cmd)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
