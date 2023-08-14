@@ -62,6 +62,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** no instance found **")
                 else:
                     print(storage.all()[patt])
+
     def do_destroy(self, line):
         """Function that deletes an instance based on class name and id."""
 
@@ -204,7 +205,7 @@ class HBNBCommand(cmd.Cmd):
         cmd = method + " " + cname + " " + uid + " " + attr_and_value
         self.onecmd(cmd)
         return (cmd)
-    
+
     def do_count(self, line):
         """Counts the instances of a class."""
 
@@ -247,7 +248,6 @@ class HBNBCommand(cmd.Cmd):
                     setattr(storage.all()[patt], attribute, value)
 
                 storage.all()[patt].save()
-
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
