@@ -62,7 +62,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** no instance found **")
                 else:
                     print(storage.all()[patt])
-
+                    
     def do_destroy(self, line):
         """Function that deletes an instance based on class name and id."""
 
@@ -161,7 +161,7 @@ class HBNBCommand(cmd.Cmd):
 
                 setattr(storage.all()[patt], attribute, value)
                 storage.all()[patt].save()
-                
+
     def default(self, line):
         """Function that defines default shell behaviour"""
 
