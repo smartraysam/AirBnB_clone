@@ -6,6 +6,7 @@ import json
 import os
 
 
+
 class FileStorage:
     """Class to store and retrieve data from Console."""
 
