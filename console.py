@@ -204,6 +204,50 @@ class HBNBCommand(cmd.Cmd):
         cmd = method + " " + cname + " " + uid + " " + attr_and_value
         self.onecmd(cmd)
         return (cmd)
+    
+    def do_count(self, line):
+        """Counts the instances of a class."""
+
+        words = line.split(' ')
+        if not words[0]:
+            print("** class name missing **")
+
+        elif words[0] not in storage.classes():
+            print("** class doesn't exist **")
+
+        else:
+            matches = [
+                k for k in storage.all() if k.startswith(
+                    words[0] + '.')]
+            print(len(matches))
+
+    def update_dict(self, cname, uid, s_dict):
+        """Function to search/set dict instances in JSON file."""
+
+        delim = s_dict.replace("'", '"')
+        word = json.loads(delim)
+
+        if not cname:
+            print("** class name missing **")
+
+        elif uid is None:
+            print("** instance id missing **")
+
+        else:
+            patt = "{}.{}".format(cname, uid)
+            if patt not in storage.all():
+                print("** no instance found **")
+
+            else:
+                attributes = storage.attributes()[cname]
+                for attribute, value in word.items():
+                    if attribute in attributes:
+                        value = attributes[attribute](value)
+
+                    setattr(storage.all()[patt], attribute, value)
+
+                storage.all()[patt].save()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
