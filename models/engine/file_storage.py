@@ -5,6 +5,7 @@ from datetime import datetime
 import json
 import os
 
+
 class FileStorage:
     """Class to store and retrieve data from Console."""
 
@@ -98,4 +99,4 @@ class FileStorage:
                          "user_id": str,
                          "text": str}
         }
-        return (attributes)y
+        return (attributes)
